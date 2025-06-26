@@ -540,4 +540,651 @@
                 </button>
             </div>
             
-            <div class="level-description" id="level-description" style="text-align: center; font-si
+            <div class="level-description" id="level-description" style="text-align: center; font-size: 0.9em; opacity: 0.8; margin-bottom: 20px; font-style: italic;"></div>
+            
+            <div class="progress">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div class="question-card" id="question-card">
+                <span class="question-number" id="question-number"></span>
+                <button class="favorite-btn" id="favorite-btn" onclick="toggleFavorite()">❤️</button>
+                <div class="question-text" id="question-text">
+                    Select a level to begin your journey of connection
+                </div>
+                <div class="note-indicator" id="note-indicator" onclick="openNotes()" style="display: none;">
+                    📝 View/Add Note
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-secondary" onclick="previousQuestion()" id="prev-btn" style="display: none;">
+                    ← Previous
+                </button>
+                <button class="btn" onclick="openNotes()" id="notes-btn" style="display: none;">
+                    📝 Add Note
+                </button>
+                <button class="btn" onclick="nextQuestion()" id="next-btn" style="display: none;">
+                    Next →
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Screen -->
+        <div id="stats-screen" style="display: none;">
+            <h1>Your Journey Together</h1>
+            <div class="stats-container" id="stats-container"></div>
+            <button class="btn" onclick="backToGame()" style="margin-top: 20px;">Back to Questions</button>
+        </div>
+
+        <!-- Question Grid Screen -->
+        <div id="grid-screen" style="display: none;">
+            <h1>Question Overview</h1>
+            <p class="subtitle" id="grid-level-title">Level 1: Hearts</p>
+            <div class="question-grid" id="question-grid"></div>
+            <button class="btn" onclick="backToGame()" style="margin-top: 20px;">Back to Game</button>
+        </div>
+    </div>
+
+    <!-- Notes Modal -->
+    <div class="modal" id="notes-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Notes</h2>
+                <button class="close-btn" onclick="closeNotes()">×</button>
+            </div>
+            <textarea class="note-textarea" id="note-textarea" placeholder="Write your thoughts, feelings, or memories about this question..."></textarea>
+            <button class="btn" onclick="saveNote()" style="margin-top: 20px;">Save Note</button>
+        </div>
+    </div>
+
+<script>
+// Extended questions - 30 per level
+const questions = {
+    1: [
+        "What's one thing about me that makes you smile when you think about it?",
+        "When did you first realize you had feelings for me?",
+        "What's your favorite memory of us together so far?",
+        "What's one thing you've always wanted to tell me but haven't?",
+        "How do you feel most loved by me?",
+        "What's something you've learned about yourself since being with me?",
+        "What's one of your dreams that you'd like us to experience together?",
+        "When do you feel most connected to me?",
+        "What's something you admire about how I handle challenges?",
+        "How has our relationship changed you as a person?",
+        "What's something you're grateful for about our relationship?",
+        "What's one way I could better support your dreams?",
+        "What's your favorite thing about how we communicate?",
+        "What's something you want us to work on together?",
+        "How do you want to grow together in the next year?",
+        "What small gesture of mine means the most to you?",
+        "What's a tradition you'd like us to start together?",
+        "How do you know when I'm truly happy?",
+        "What's something about me that surprised you?",
+        "What do you think our greatest strength is as a couple?",
+        "What's your favorite way we spend time together?",
+        "How would you describe our love to someone else?",
+        "What's something I do that makes you feel secure?",
+        "What adventure would you like us to take together?",
+        "How do you want us to handle difficult times?",
+        "What's your favorite inside joke we share?",
+        "What quality of mine do you hope never changes?",
+        "How do you see our daily life in 5 years?",
+        "What's something you want to learn about me?",
+        "What moment made you think 'I want to be with this person forever'?"
+    ],
+    2: [
+        "What's your deepest fear about our relationship?",
+        "What's something you've never told anyone that you'd like to share with me?",
+        "What does true intimacy mean to you?",
+        "What's one thing about yourself that you're still discovering?",
+        "How do you want to be remembered by me?",
+        "What's something you need to feel completely safe with me?",
+        "What's one way we could be more vulnerable with each other?",
+        "What's your biggest insecurity, and how can I help you with it?",
+        "What's something you've always wanted to try but been afraid to?",
+        "How do you want our love to evolve over time?",
+        "What's something about your past that still affects you today?",
+        "What's one thing you need from me when you're struggling?",
+        "How do you want us to handle conflict in our relationship?",
+        "What's something you're proud of about how we love each other?",
+        "What's one way we could deepen our spiritual connection?",
+        "What childhood experience shaped who you are today?",
+        "What's your biggest regret, and what did it teach you?",
+        "How do you define unconditional love?",
+        "What's a belief you held that our relationship has changed?",
+        "What scares you most about being truly seen?",
+        "How has loving me challenged you to grow?",
+        "What's a dream you've never shared with anyone?",
+        "What do you need to forgive yourself for?",
+        "How do you want us to support each other's healing?",
+        "What's the hardest truth you've had to accept about yourself?",
+        "What does emotional safety look like to you?",
+        "How do you want to face life's uncertainties together?",
+        "What's something you're still learning to receive?",
+        "What legacy do you want our love to leave?",
+        "How has our relationship helped you heal?"
+    ],
+    3: [
+        "What's something about physical intimacy that you've always wanted to explore?",
+        "How do you feel most desired by me?",
+        "What's your favorite way for us to show physical affection?",
+        "What's something new you'd like to try together?",
+        "How do you like to be touched when you need comfort?",
+        "What's something that makes you feel confident in your body?",
+        "What's one thing you love about our physical connection?",
+        "How can we create more intimacy in our daily lives?",
+        "What's something you find irresistible about me?",
+        "What's your favorite memory of our physical connection?",
+        "How do you want us to maintain our physical connection over time?",
+        "What's something you've been curious about but haven't brought up?",
+        "How do you like to initiate physical intimacy?",
+        "What's one way we could make our intimate moments more special?",
+        "What makes you feel most connected to me physically?",
+        "What's your favorite place to be kissed?",
+        "How do you like to be held?",
+        "What's something that always makes you feel attractive?",
+        "What type of physical affection do you crave most?",
+        "How can I help you feel more comfortable in your body?",
+        "What's a sensation that brings you peace?",
+        "How do you want to explore sensuality together?",
+        "What's your favorite way to relax together physically?",
+        "What boundaries are important for you to feel safe?",
+        "How does physical touch help you feel loved?",
+        "What's something you want to understand better about my desires?",
+        "How can we better communicate during intimate moments?",
+        "What makes you feel most present in your body?",
+        "What's a fantasy you'd feel safe exploring with me?",
+        "How do you want our physical relationship to grow?"
+    ]
+};
+
+const levelDescriptions = {
+    1: "Emotional connection and getting to know each other's hearts",
+    2: "Deep vulnerability and soul-level intimacy",
+    3: "Physical connection and exploring desires together"
+};
+
+// State management
+let currentLevel = 1;
+let currentQuestionIndex = 0;
+let gameStarted = false; // Tracks if the game has been initiated from the start screen
+let gameData = {
+    completedQuestions: { 1: [], 2: [], 3: [] }, // Stores indices of completed questions per level
+    notes: {}, // Stores notes, keyed by "level-index"
+    favorites: [], // Stores favorited questions, keyed by "level-index"
+    lastPlayed: null, // Timestamp of last play
+    currentLevel: 1, // Last played level
+    currentQuestion: 0 // Last played question index
+};
+
+// --- Initialization and Storage ---
+
+// Initialize app when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        loadProgress(); // Attempt to load saved data
+        // If there's saved progress, show the resume option
+        if (gameData.lastPlayed) {
+            document.getElementById('resume-option').style.display = 'block';
+        }
+        // Update progress indicators on level buttons initially
+        updateProgressIndicators();
+    } catch (error) {
+        console.error("Error during app initialization:", error);
+        // Fallback to fresh start if loading fails
+        document.getElementById('resume-option').style.display = 'none';
+    }
+});
+
+// Saves current game state to local storage
+function saveProgress() {
+    gameData.lastPlayed = new Date().toISOString(); // Update timestamp
+    gameData.currentLevel = currentLevel;
+    gameData.currentQuestion = currentQuestionIndex;
+    try {
+        localStorage.setItem('intimateConnection', JSON.stringify(gameData));
+        console.log("Game progress saved.");
+    } catch (error) {
+        console.error("Error saving progress to local storage:", error);
+    }
+    updateProgressIndicators(); // Update UI progress
+}
+
+// Loads game state from local storage
+function loadProgress() {
+    try {
+        const saved = localStorage.getItem('intimateConnection');
+        if (saved) {
+            gameData = JSON.parse(saved);
+            console.log("Game progress loaded.", gameData);
+        }
+    } catch (error) {
+        console.error("Error loading progress from local storage:", error);
+        // Reset gameData if loading fails to prevent corrupted state
+        gameData = {
+            completedQuestions: { 1: [], 2: [], 3: [] },
+            notes: {},
+            favorites: [],
+            lastPlayed: null,
+            currentLevel: 1,
+            currentQuestion: 0
+        };
+    }
+}
+
+// Resets all game progress and reloads the page
+function resetProgress() {
+    // Use a custom modal or message box instead of confirm() for better UI consistency
+    showConfirmation("Are you sure you want to reset all progress? This will delete all your notes and completed questions.",
+        function() { // On confirmation
+            localStorage.removeItem('intimateConnection'); // Clear data
+            gameData = { // Reset state variables
+                completedQuestions: { 1: [], 2: [], 3: [] },
+                notes: {},
+                favorites: [],
+                lastPlayed: null,
+                currentLevel: 1,
+                currentQuestion: 0
+            };
+            location.reload(); // Reload the page to reset UI
+        },
+        function() { // On cancellation
+            console.log("Reset cancelled.");
+        }
+    );
+}
+
+// Custom confirmation modal (replaces native confirm)
+function showConfirmation(message, onConfirm, onCancel) {
+    const modal = document.createElement('div');
+    modal.className = 'modal active'; // Use existing modal styles
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Action</h2>
+                <button class="close-btn" onclick="closeConfirmation()">×</button>
+            </div>
+            <p>${message}</p>
+            <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+                <button class="btn btn-secondary" id="confirm-cancel-btn">Cancel</button>
+                <button class="btn" id="confirm-ok-btn">Confirm</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    document.getElementById('confirm-ok-btn').onclick = function() {
+        onConfirm();
+        modal.remove(); // Remove modal after action
+    };
+    document.getElementById('confirm-cancel-btn').onclick = function() {
+        onCancel();
+        modal.remove(); // Remove modal after action
+    };
+    // Close button in header
+    modal.querySelector('.close-btn').onclick = function() {
+        onCancel();
+        modal.remove();
+    };
+
+    // Close on outside click
+    modal.onclick = function(event) {
+        if (event.target === modal) {
+            onCancel();
+            modal.remove();
+        }
+    };
+}
+
+// Function to close the confirmation modal if opened by the close button directly.
+// This is a helper, but the modal.remove() in the listeners is the primary way.
+function closeConfirmation() {
+    const modal = document.querySelector('.modal.active');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+
+// --- Game Navigation and Display ---
+
+// Shows the game screen and hides the start screen
+function startGame() {
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('game-screen').style.display = 'block';
+    gameStarted = true;
+    selectLevel(currentLevel); // Ensure a level is selected and question shown
+    updateProgressIndicators();
+}
+
+// Resumes the game from the last saved point
+function resumeGame() {
+    startGame(); // Transition to game screen
+    currentLevel = gameData.currentLevel; // Set to last played level
+    currentQuestionIndex = gameData.currentQuestion; // Set to last played question
+    selectLevel(currentLevel); // Load the level and display the question
+}
+
+// Selects a new level and resets question index
+function selectLevel(level) {
+    currentLevel = level;
+    currentQuestionIndex = 0; // Always start from the beginning of the selected level when manually changing levels
+    
+    // Update active state for level buttons
+    document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.level-${level}`).classList.add('active');
+    
+    // Update level description
+    document.getElementById('level-description').textContent = levelDescriptions[level];
+    
+    showQuestion(); // Display the first question of the new level
+    
+    // Show/hide navigation buttons based on game state
+    document.getElementById('next-btn').style.display = 'block';
+    document.getElementById('notes-btn').style.display = 'block';
+    document.getElementById('prev-btn').style.display = 'none'; // Initially hide previous button for new level
+}
+
+// Displays the current question and updates UI elements
+function showQuestion() {
+    const currentQuestionsList = questions[currentLevel];
+    if (!currentQuestionsList || currentQuestionIndex >= currentQuestionsList.length || currentQuestionIndex < 0) {
+        showLevelComplete(); // Handle end of level or invalid index
+        return;
+    }
+
+    const questionText = currentQuestionsList[currentQuestionIndex];
+    document.getElementById('question-text').textContent = questionText;
+    document.getElementById('question-number').textContent = `Question ${currentQuestionIndex + 1} of ${currentQuestionsList.length}`;
+    
+    const questionId = `${currentLevel}-${currentQuestionIndex}`;
+    
+    // Update favorite button state
+    const favoriteBtn = document.getElementById('favorite-btn');
+    favoriteBtn.classList.toggle('active', gameData.favorites.includes(questionId));
+    favoriteBtn.style.display = 'block'; // Ensure favorite button is visible when question is shown
+
+    // Update note indicator state
+    const noteIndicator = document.getElementById('note-indicator');
+    if (gameData.notes[questionId]) {
+        noteIndicator.style.display = 'block';
+    } else {
+        noteIndicator.style.display = 'none';
+    }
+    
+    // Ensure notes and navigation buttons are visible
+    document.getElementById('notes-btn').style.display = 'block';
+    document.getElementById('next-btn').style.display = 'block';
+    document.getElementById('prev-btn').style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+
+    updateProgress(); // Update progress bar
+    saveProgress(); // Save current state
+    
+    // Add fade-in animation for question card
+    document.getElementById('question-card').classList.add('fade-in');
+    setTimeout(() => {
+        document.getElementById('question-card').classList.remove('fade-in');
+    }, 500);
+}
+
+// Moves to the next question
+function nextQuestion() {
+    // Mark current question as completed (if not already)
+    if (!gameData.completedQuestions[currentLevel].includes(currentQuestionIndex)) {
+        gameData.completedQuestions[currentLevel].push(currentQuestionIndex);
+        gameData.completedQuestions[currentLevel].sort((a,b) => a-b); // Keep sorted for consistency
+    }
+    
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex >= questions[currentLevel].length) {
+        showLevelComplete(); // All questions in this level answered
+    } else {
+        showQuestion(); // Show next question
+        document.getElementById('prev-btn').style.display = 'block'; // Always show previous button if not at the start
+    }
+}
+
+// Moves to the previous question
+function previousQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        showQuestion(); // Show previous question
+        if (currentQuestionIndex === 0) {
+            document.getElementById('prev-btn').style.display = 'none'; // Hide if at the very first question of the level
+        }
+    }
+}
+
+// Displays the level complete message
+function showLevelComplete() {
+    document.getElementById('question-text').innerHTML = `
+        <div>
+            <h3>Level ${currentLevel} Complete! 🎉</h3>
+            <p>You've explored ${questions[currentLevel].length} questions together.</p>
+            <p>Choose another level to continue your journey, or take time to reflect on what you've shared.</p>
+        </div>`;
+    // Hide navigation and question-specific controls
+    document.getElementById('next-btn').style.display = 'none';
+    document.getElementById('notes-btn').style.display = 'none';
+    document.getElementById('favorite-btn').style.display = 'none';
+    document.getElementById('question-number').style.display = 'none';
+    document.getElementById('note-indicator').style.display = 'none';
+    
+    updateProgressIndicators(); // Update progress on level buttons
+}
+
+// Updates the main progress bar
+function updateProgress() {
+    const progress = (currentQuestionIndex / questions[currentLevel].length) * 100;
+    document.getElementById('progress-bar').style.width = progress + '%';
+}
+
+// Updates the small progress indicators on level buttons
+function updateProgressIndicators() {
+    for (let level = 1; level <= 3; level++) {
+        const completed = gameData.completedQuestions[level].length;
+        const indicator = document.getElementById(`progress-${level}`);
+        if (completed > 0) {
+            indicator.textContent = completed;
+            indicator.style.display = 'block';
+        } else {
+            indicator.style.display = 'none';
+        }
+    }
+}
+
+// --- Notes Functionality ---
+
+// Opens the notes modal for the current question
+function openNotes() {
+    const questionId = `${currentLevel}-${currentQuestionIndex}`;
+    const existingNote = gameData.notes[questionId] || '';
+    document.getElementById('note-textarea').value = existingNote;
+    document.getElementById('notes-modal').classList.add('active');
+}
+
+// Closes the notes modal
+function closeNotes() {
+    document.getElementById('notes-modal').classList.remove('active');
+}
+
+// Saves the note for the current question
+function saveNote() {
+    const questionId = `${currentLevel}-${currentQuestionIndex}`;
+    const noteText = document.getElementById('note-textarea').value.trim();
+    
+    if (noteText) {
+        gameData.notes[questionId] = noteText;
+        document.getElementById('note-indicator').style.display = 'block'; // Show indicator if note exists
+    } else {
+        delete gameData.notes[questionId]; // Remove note if empty
+        document.getElementById('note-indicator').style.display = 'none'; // Hide indicator if no note
+    }
+    
+    saveProgress(); // Save changes to notes
+    closeNotes();
+}
+
+// Exports all notes to a text file
+function exportNotes() {
+    toggleMenu(); // Close menu
+    let exportText = "Intimate Connection - Your Journey Notes\n\n";
+    let hasNotes = false;
+
+    for (const levelKey in questions) {
+        const level = parseInt(levelKey);
+        exportText += `--- Level ${level}: ${levelDescriptions[level]} ---\n\n`;
+        questions[level].forEach((qText, index) => {
+            const questionId = `${level}-${index}`;
+            if (gameData.notes[questionId]) {
+                exportText += `Question ${index + 1}: ${qText}\n`;
+                exportText += `Note: ${gameData.notes[questionId]}\n\n`;
+                hasNotes = true;
+            }
+        });
+        exportText += "--------------------------------------\n\n";
+    }
+
+    if (!hasNotes) {
+        exportText = "No notes saved yet. Start your journey and add some!\n";
+    }
+
+    const blob = new Blob([exportText], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Intimate_Connection_Notes.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href); // Clean up URL object
+}
+
+
+// --- Favorites Functionality ---
+
+// Toggles the favorite status of the current question
+function toggleFavorite() {
+    const questionId = `${currentLevel}-${currentQuestionIndex}`;
+    const index = gameData.favorites.indexOf(questionId);
+
+    if (index > -1) {
+        gameData.favorites.splice(index, 1); // Remove from favorites
+        document.getElementById('favorite-btn').classList.remove('active');
+    } else {
+        gameData.favorites.push(questionId); // Add to favorites
+        document.getElementById('favorite-btn').classList.add('active');
+    }
+    
+    saveProgress(); // Save changes to favorites
+}
+
+// --- Menu Functionality ---
+
+// Toggles the visibility of the main menu dropdown
+function toggleMenu() {
+    const menu = document.getElementById('menu-dropdown');
+    menu.classList.toggle('active');
+}
+
+// Displays the stats screen
+function showStats() {
+    toggleMenu(); // Close the menu
+    document.getElementById('game-screen').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('grid-screen').style.display = 'none';
+    document.getElementById('stats-screen').style.display = 'block'; // Show stats screen
+    
+    let totalCompleted = 0;
+    let totalNotes = 0;
+    
+    // Calculate total completed questions across all levels
+    for (let level = 1; level <= 3; level++) {
+        totalCompleted += gameData.completedQuestions[level].length;
+    }
+    
+    // Count total notes
+    totalNotes = Object.keys(gameData.notes).length;
+    
+    // Generate HTML for stats cards
+    const statsHTML = `
+        <div class="stat-card">
+            <div class="stat-number">${totalCompleted}</div>
+            <div class="stat-label">Questions Explored</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">${totalNotes}</div>
+            <div class="stat-label">Notes Written</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">${gameData.favorites.length}</div>
+            <div class="stat-label">Favorite Questions</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">${Math.round(totalCompleted / (questions[1].length + questions[2].length + questions[3].length) * 100)}%</div>
+            <div class="stat-label">Overall Journey Progress</div>
+        </div>
+    `;
+    
+    document.getElementById('stats-container').innerHTML = statsHTML;
+}
+
+// Displays the question grid screen
+function showQuestionGrid() {
+    toggleMenu(); // Close the menu
+    document.getElementById('game-screen').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('stats-screen').style.display = 'none';
+    document.getElementById('grid-screen').style.display = 'block'; // Show grid screen
+
+    document.getElementById('grid-level-title').textContent = `Level ${currentLevel}: ${levelDescriptions[currentLevel]}`;
+    
+    const grid = document.getElementById('question-grid');
+    grid.innerHTML = ''; // Clear previous grid items
+    
+    // Populate the grid with question numbers
+    for (let i = 0; i < questions[currentLevel].length; i++) {
+        const item = document.createElement('div');
+        item.className = 'question-grid-item';
+        item.textContent = i + 1; // Display question number (1-indexed)
+        
+        // Add classes based on completion, current status, and notes
+        if (gameData.completedQuestions[currentLevel].includes(i)) {
+            item.classList.add('completed');
+        }
+        
+        if (i === currentQuestionIndex) {
+            item.classList.add('current');
+        }
+        
+        // --- FIX WAS HERE ---
+        // Corrected the incomplete line to properly check for notes
+        if (gameData.notes[`${currentLevel}-${i}`]) {
+            item.classList.add('has-note');
+        }
+        // --- END FIX ---
+
+        // Add click listener to navigate to selected question
+        item.onclick = () => {
+            currentQuestionIndex = i; // Set selected question as current
+            backToGame(); // Go back to game screen
+            selectLevel(currentLevel); // Re-render question (already showing correct level)
+            showQuestion(); // Show the newly selected question
+        };
+        grid.appendChild(item);
+    }
+}
+
+// Navigates back to the main game screen from stats or grid
+function backToGame() {
+    document.getElementById('stats-screen').style.display = 'none';
+    document.getElementById('grid-screen').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'none'; // Ensure start screen is hidden
+    document.getElementById('game-screen').style.display = 'block'; // Show game screen
+    showQuestion(); // Re-display the current question
+}
+</script>
+</body>
+</html>
