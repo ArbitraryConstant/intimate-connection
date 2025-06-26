@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,51 +6,58 @@
     <meta name="description" content="Intimate Connection - A game for couples to deepen their relationship through meaningful conversations">
     <title>Intimate Connection - Deepen Your Love</title>
     <style>
+        /* General Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Root Variables for Theming */
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --secondary-gradient: linear-gradient(45deg, #ffd89b, #19547b);
-            --level-1: linear-gradient(45deg, #4facfe, #00f2fe);
-            --level-2: linear-gradient(45deg, #f093fb, #f5576c);
-            --level-3: linear-gradient(45deg, #ffecd2, #fcb69f);
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --level-1: linear-gradient(45deg, #4facfe, #00f2fe); /* Light Blue to Cyan */
+            --level-2: linear-gradient(45deg, #f093fb, #f5576c); /* Pink to Red */
+            --level-3: linear-gradient(45deg, #ffecd2, #fcb69f); /* Peach to Coral */
+            --glass-bg: rgba(255, 255, 255, 0.1); /* Transparent white for glass effect */
+            --glass-border: rgba(255, 255, 255, 0.2); /* Slightly less transparent white border */
             --text-primary: white;
-            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow: rgba(0, 0, 0, 0.3); /* Dark shadow for depth */
         }
 
+        /* Body Styling */
         body {
-            font-family: 'Georgia', serif;
-            background: var(--primary-gradient);
-            min-height: 100vh;
+            font-family: 'Georgia', serif; /* Elegant serif font */
+            background: var(--primary-gradient); /* Main background gradient */
+            min-height: 100vh; /* Full viewport height */
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--text-primary);
             padding: 20px;
+            overflow-x: hidden; /* Prevent horizontal scroll on small screens */
         }
 
+        /* Game Container */
         .game-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: var(--glass-bg); /* Glass background */
+            backdrop-filter: blur(10px); /* Blur effect for glass */
             border-radius: 20px;
             padding: 40px;
             max-width: 800px;
             width: 100%;
-            box-shadow: 0 20px 40px var(--shadow);
-            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 40px var(--shadow); /* Large shadow */
+            border: 1px solid var(--glass-border); /* Glass border */
             position: relative;
+            animation: fadeIn 0.8s ease-out; /* Fade in animation for the container */
         }
 
+        /* Headings */
         h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
-            background: var(--secondary-gradient);
+            background: var(--secondary-gradient); /* Gradient for text */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -66,12 +72,13 @@
             text-align: center;
         }
 
+        /* Level Selector */
         .level-selector {
             display: flex;
             justify-content: center;
             gap: 15px;
             margin-bottom: 30px;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
         }
 
         .level-btn {
@@ -80,31 +87,34 @@
             border-radius: 25px;
             font-size: 1em;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease; /* Smooth transitions */
             font-weight: bold;
             color: white;
-            position: relative;
+            position: relative; /* For progress indicator positioning */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Subtle shadow for buttons */
         }
 
+        /* Level specific backgrounds */
         .level-1 { background: var(--level-1); }
         .level-2 { background: var(--level-2); }
         .level-3 { background: var(--level-3); }
 
         .level-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px var(--shadow);
+            transform: translateY(-2px); /* Lift on hover */
+            box-shadow: 0 10px 20px var(--shadow); /* Enhanced shadow on hover */
         }
 
         .level-btn.active {
-            transform: scale(1.05);
-            box-shadow: 0 15px 30px var(--shadow);
+            transform: scale(1.05); /* Slightly larger when active */
+            box-shadow: 0 15px 30px var(--shadow); /* More prominent shadow when active */
+            border: 2px solid rgba(255, 255, 255, 0.5); /* Highlight active button */
         }
 
         .level-btn .progress-indicator {
             position: absolute;
             top: -8px;
             right: -8px;
-            background: #4caf50;
+            background: #4caf50; /* Green for progress */
             color: white;
             border-radius: 50%;
             width: 24px;
@@ -114,10 +124,12 @@
             justify-content: center;
             font-size: 0.8em;
             font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Small shadow for indicator */
         }
 
+        /* Question Card */
         .question-card {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.15); /* Slightly darker glass for card */
             border-radius: 15px;
             padding: 30px;
             margin: 20px 0;
@@ -149,14 +161,17 @@
             cursor: pointer;
             font-size: 1.5em;
             transition: all 0.3s ease;
+            padding: 5px; /* Add padding for easier clicking */
         }
 
         .favorite-btn:hover {
             transform: scale(1.2);
+            text-shadow: 0 0 10px rgba(255,255,255,0.5); /* Glowing effect */
         }
 
         .favorite-btn.active {
-            color: #ff6b6b;
+            color: #ff6b6b; /* Red for active favorite */
+            transform: scale(1.1);
         }
 
         .question-text {
@@ -164,6 +179,7 @@
             line-height: 1.6;
             text-align: center;
             margin: 20px 0;
+            padding: 0 20px; /* Add horizontal padding to prevent text from touching edges */
         }
 
         .note-indicator {
@@ -175,8 +191,14 @@
             border-radius: 15px;
             font-size: 0.8em;
             cursor: pointer;
+            transition: background 0.3s ease;
         }
 
+        .note-indicator:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Controls (Buttons) */
         .controls {
             display: flex;
             justify-content: center;
@@ -195,17 +217,25 @@
             font-weight: bold;
             color: white;
             background: var(--primary-gradient);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3); /* Button shadow */
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px var(--shadow);
+            box-shadow: 0 12px 25px var(--shadow);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.2); /* Lighter background for secondary buttons */
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
         }
 
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Progress Bar */
         .progress {
             width: 100%;
             height: 6px;
@@ -222,32 +252,34 @@
             border-radius: 3px;
         }
 
+        /* Modals (Notes, Menus) */
         .modal {
-            display: none;
+            display: none; /* Hidden by default */
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.8); /* Dark overlay */
             z-index: 1000;
             align-items: center;
             justify-content: center;
         }
 
         .modal.active {
-            display: flex;
+            display: flex; /* Show when active */
         }
 
         .modal-content {
-            background: var(--primary-gradient);
+            background: var(--primary-gradient); /* Modal content background */
             padding: 30px;
             border-radius: 20px;
             max-width: 600px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 80vh; /* Limit height for scrollability */
             overflow-y: auto;
             position: relative;
+            box-shadow: 0 20px 40px var(--shadow);
         }
 
         .modal-header {
@@ -264,6 +296,11 @@
             font-size: 1.5em;
             cursor: pointer;
             padding: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg); /* Rotate on hover for close button */
         }
 
         .note-textarea {
@@ -276,14 +313,15 @@
             color: white;
             font-family: inherit;
             font-size: 1em;
-            resize: vertical;
+            resize: vertical; /* Allow vertical resizing */
         }
 
         .note-textarea:focus {
             outline: none;
-            border-color: rgba(255, 255, 255, 0.5);
+            border-color: rgba(255, 255, 255, 0.5); /* Highlight border on focus */
         }
 
+        /* Menu Button and Dropdown */
         .menu-btn {
             position: absolute;
             top: 20px;
@@ -295,19 +333,26 @@
             color: white;
             cursor: pointer;
             font-size: 0.9em;
+            z-index: 101; /* Ensure it's above other elements */
+            transition: background 0.3s ease;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
 
         .menu-dropdown {
             position: absolute;
             top: 60px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            color: #333;
+            background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+            color: #333; /* Dark text for contrast */
             border-radius: 10px;
             padding: 10px 0;
             display: none;
             box-shadow: 0 10px 20px var(--shadow);
             z-index: 100;
+            min-width: 180px; /* Ensure sufficient width */
         }
 
         .menu-dropdown.active {
@@ -321,18 +366,19 @@
         }
 
         .menu-item:hover {
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.1); /* Light grey on hover */
         }
 
+        /* Question Grid for Navigation */
         .question-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); /* Responsive grid */
             gap: 10px;
             margin: 20px 0;
         }
 
         .question-grid-item {
-            aspect-ratio: 1;
+            aspect-ratio: 1; /* Maintain square aspect ratio */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -350,22 +396,25 @@
         }
 
         .question-grid-item.completed {
-            background: rgba(76, 175, 80, 0.5);
+            background: rgba(76, 175, 80, 0.5); /* Green for completed */
+            color: white;
         }
 
         .question-grid-item.current {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.5); /* Brighter for current question */
             transform: scale(1.1);
+            border: 2px solid white; /* Stronger highlight for current */
         }
 
         .question-grid-item.has-note::after {
-            content: '📝';
+            content: '📝'; /* Emoji indicator for notes */
             position: absolute;
             top: -5px;
             right: -5px;
             font-size: 0.8em;
         }
 
+        /* Stats Container */
         .stats-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -378,6 +427,7 @@
             padding: 20px;
             border-radius: 15px;
             text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .stat-number {
@@ -391,6 +441,7 @@
             opacity: 0.8;
         }
 
+        /* Responsive Adjustments */
         @media (max-width: 768px) {
             .game-container {
                 padding: 20px;
@@ -413,8 +464,12 @@
             .question-text {
                 font-size: 1.2em;
             }
+            .btn {
+                padding: 12px 20px; /* Smaller padding for mobile buttons */
+            }
         }
 
+        /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -433,7 +488,9 @@
 </head>
 <body>
     <div class="game-container">
+        <!-- Menu Button -->
         <button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
+        <!-- Menu Dropdown -->
         <div class="menu-dropdown" id="menu-dropdown">
             <div class="menu-item" onclick="showStats()">📊 View Stats</div>
             <div class="menu-item" onclick="showQuestionGrid()">📱 Question Grid</div>
@@ -441,6 +498,7 @@
             <div class="menu-item" onclick="resetProgress()">🔄 Reset Progress</div>
         </div>
 
+        <!-- Start Screen -->
         <div id="start-screen" class="start-screen">
             <h1>Intimate Connection</h1>
             <p class="subtitle">A journey of deeper connection for couples</p>
@@ -463,6 +521,7 @@
             </div>
         </div>
 
+        <!-- Game Screen -->
         <div id="game-screen" style="display: none;">
             <h1>Intimate Connection</h1>
             
@@ -481,532 +540,4 @@
                 </button>
             </div>
             
-            <div class="level-description" id="level-description" style="text-align: center; font-size: 0.9em; opacity: 0.8; margin-bottom: 20px; font-style: italic;"></div>
-            
-            <div class="progress">
-                <div class="progress-bar" id="progress-bar"></div>
-            </div>
-            
-            <div class="question-card" id="question-card">
-                <span class="question-number" id="question-number"></span>
-                <button class="favorite-btn" id="favorite-btn" onclick="toggleFavorite()">❤️</button>
-                <div class="question-text" id="question-text">
-                    Select a level to begin your journey of connection
-                </div>
-                <div class="note-indicator" id="note-indicator" onclick="openNotes()" style="display: none;">
-                    📝 View/Add Note
-                </div>
-            </div>
-            
-            <div class="controls">
-                <button class="btn btn-secondary" onclick="previousQuestion()" id="prev-btn" style="display: none;">
-                    ← Previous
-                </button>
-                <button class="btn" onclick="openNotes()" id="notes-btn" style="display: none;">
-                    📝 Add Note
-                </button>
-                <button class="btn" onclick="nextQuestion()" id="next-btn" style="display: none;">
-                    Next →
-                </button>
-            </div>
-        </div>
-
-        <div id="stats-screen" style="display: none;">
-            <h1>Your Journey Together</h1>
-            <div class="stats-container" id="stats-container"></div>
-            <button class="btn" onclick="backToGame()" style="margin-top: 20px;">Back to Questions</button>
-        </div>
-
-        <div id="grid-screen" style="display: none;">
-            <h1>Question Overview</h1>
-            <p class="subtitle" id="grid-level-title">Level 1: Hearts</p>
-            <div class="question-grid" id="question-grid"></div>
-            <button class="btn" onclick="backToGame()" style="margin-top: 20px;">Back to Game</button>
-        </div>
-    </div>
-
-    <div class="modal" id="notes-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Your Notes</h2>
-                <button class="close-btn" onclick="closeNotes()">×</button>
-            </div>
-            <textarea class="note-textarea" id="note-textarea" placeholder="Write your thoughts, feelings, or memories about this question..."></textarea>
-            <button class="btn" onclick="saveNote()" style="margin-top: 20px;">Save Note</button>
-        </div>
-    </div>
-
-<script>
-// Extended questions - 30 per level
-const questions = {
-    1: [
-        "What's one thing about me that makes you smile when you think about it?",
-        "When did you first realize you had feelings for me?",
-        "What's your favorite memory of us together so far?",
-        "What's one thing you've always wanted to tell me but haven't?",
-        "How do you feel most loved by me?",
-        "What's something you've learned about yourself since being with me?",
-        "What's one of your dreams that you'd like us to experience together?",
-        "When do you feel most connected to me?",
-        "What's something you admire about how I handle challenges?",
-        "How has our relationship changed you as a person?",
-        "What's something you're grateful for about our relationship?",
-        "What's one way I could better support your dreams?",
-        "What's your favorite thing about how we communicate?",
-        "What's something you want us to work on together?",
-        "How do you want to grow together in the next year?",
-        "What small gesture of mine means the most to you?",
-        "What's a tradition you'd like us to start together?",
-        "How do you know when I'm truly happy?",
-        "What's something about me that surprised you?",
-        "What do you think our greatest strength is as a couple?",
-        "What's your favorite way we spend time together?",
-        "How would you describe our love to someone else?",
-        "What's something I do that makes you feel secure?",
-        "What adventure would you like us to take together?",
-        "How do you want us to handle difficult times?",
-        "What's your favorite inside joke we share?",
-        "What quality of mine do you hope never changes?",
-        "How do you see our daily life in 5 years?",
-        "What's something you want to learn about me?",
-        "What moment made you think 'I want to be with this person forever'?"
-    ],
-    2: [
-        "What's your deepest fear about our relationship?",
-        "What's something you've never told anyone that you'd like to share with me?",
-        "What does true intimacy mean to you?",
-        "What's one thing about yourself that you're still discovering?",
-        "How do you want to be remembered by me?",
-        "What's something you need to feel completely safe with me?",
-        "What's one way we could be more vulnerable with each other?",
-        "What's your biggest insecurity, and how can I help you with it?",
-        "What's something you've always wanted to try but been afraid to?",
-        "How do you want our love to evolve over time?",
-        "What's something about your past that still affects you today?",
-        "What's one thing you need from me when you're struggling?",
-        "How do you want us to handle conflict in our relationship?",
-        "What's something you're proud of about how we love each other?",
-        "What's one way we could deepen our spiritual connection?",
-        "What childhood experience shaped who you are today?",
-        "What's your biggest regret, and what did it teach you?",
-        "How do you define unconditional love?",
-        "What's a belief you held that our relationship has changed?",
-        "What scares you most about being truly seen?",
-        "How has loving me challenged you to grow?",
-        "What's a dream you've never shared with anyone?",
-        "What do you need to forgive yourself for?",
-        "How do you want us to support each other's healing?",
-        "What's the hardest truth you've had to accept about yourself?",
-        "What does emotional safety look like to you?",
-        "How do you want to face life's uncertainties together?",
-        "What's something you're still learning to receive?",
-        "What legacy do you want our love to leave?",
-        "How has our relationship helped you heal?"
-    ],
-    3: [
-        "What's something about physical intimacy that you've always wanted to explore?",
-        "How do you feel most desired by me?",
-        "What's your favorite way for us to show physical affection?",
-        "What's something new you'd like to try together?",
-        "How do you like to be touched when you need comfort?",
-        "What's something that makes you feel confident in your body?",
-        "What's one thing you love about our physical connection?",
-        "How can we create more intimacy in our daily lives?",
-        "What's something you find irresistible about me?",
-        "What's your favorite memory of our physical connection?",
-        "How do you want us to maintain our physical connection over time?",
-        "What's something you've been curious about but haven't brought up?",
-        "How do you like to initiate physical intimacy?",
-        "What's one way we could make our intimate moments more special?",
-        "What makes you feel most connected to me physically?",
-        "What's your favorite place to be kissed?",
-        "How do you like to be held?",
-        "What's something that always makes you feel attractive?",
-        "What type of physical affection do you crave most?",
-        "How can I help you feel more comfortable in your body?",
-        "What's a sensation that brings you peace?",
-        "How do you want to explore sensuality together?",
-        "What's your favorite way to relax together physically?",
-        "What boundaries are important for you to feel safe?",
-        "How does physical touch help you feel loved?",
-        "What's something you want to understand better about my desires?",
-        "How can we better communicate during intimate moments?",
-        "What makes you feel most present in your body?",
-        "What's a fantasy you'd feel safe exploring with me?",
-        "How do you want our physical relationship to grow?"
-    ]
-};
-
-const levelDescriptions = {
-    1: "Emotional connection and getting to know each other's hearts",
-    2: "Deep vulnerability and soul-level intimacy",
-    3: "Physical connection and exploring desires together"
-};
-
-// State management
-let currentLevel = 1;
-let currentQuestionIndex = 0;
-let gameStarted = false;
-let gameData = {
-    completedQuestions: { 1: [], 2: [], 3: [] },
-    notes: {},
-    favorites: [],
-    lastPlayed: null,
-    currentLevel: 1,
-    currentQuestion: 0
-};
-
-// Initialize app
-document.addEventListener('DOMContentLoaded', function() {
-    loadProgress();
-    if (gameData.lastPlayed) {
-        document.getElementById('resume-option').style.display = 'block';
-    }
-});
-
-// Storage functions
-function saveProgress() {
-    gameData.lastPlayed = new Date().toISOString();
-    gameData.currentLevel = currentLevel;
-    gameData.currentQuestion = currentQuestionIndex;
-    localStorage.setItem('intimateConnection', JSON.stringify(gameData));
-    updateProgressIndicators();
-}
-
-function loadProgress() {
-    const saved = localStorage.getItem('intimateConnection');
-    if (saved) {
-        gameData = JSON.parse(saved);
-    }
-}
-
-function resetProgress() {
-    if (confirm('Are you sure you want to reset all progress? This will delete all your notes and completed questions.')) {
-        localStorage.removeItem('intimateConnection');
-        gameData = {
-            completedQuestions: { 1: [], 2: [], 3: [] },
-            notes: {},
-            favorites: [],
-            lastPlayed: null,
-            currentLevel: 1,
-            currentQuestion: 0
-        };
-        location.reload();
-    }
-}
-
-// Game navigation functions
-function startGame() {
-    document.getElementById('start-screen').style.display = 'none';
-    document.getElementById('game-screen').style.display = 'block';
-    gameStarted = true;
-    updateProgressIndicators();
-}
-
-function resumeGame() {
-    startGame();
-    currentLevel = gameData.currentLevel;
-    currentQuestionIndex = gameData.currentQuestion;
-    selectLevel(currentLevel);
-}
-
-function selectLevel(level) {
-    currentLevel = level;
-    currentQuestionIndex = 0;
-    
-    document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`.level-${level}`).classList.add('active');
-    
-    document.getElementById('level-description').textContent = levelDescriptions[level];
-    
-    showQuestion();
-    
-    document.getElementById('next-btn').style.display = 'block';
-    document.getElementById('notes-btn').style.display = 'block';
-    document.getElementById('prev-btn').style.display = currentQuestionIndex > 0 ? 'block' : 'none';
-}
-
-function showQuestion() {
-    const questionText = questions[currentLevel][currentQuestionIndex];
-    document.getElementById('question-text').textContent = questionText;
-    document.getElementById('question-number').textContent = `Question ${currentQuestionIndex + 1} of ${questions[currentLevel].length}`;
-    
-    const questionId = `${currentLevel}-${currentQuestionIndex}`;
-    const favoriteBtn = document.getElementById('favorite-btn');
-    favoriteBtn.classList.toggle('active', gameData.favorites.includes(questionId));
-    
-    const noteIndicator = document.getElementById('note-indicator');
-    if (gameData.notes[questionId]) {
-        noteIndicator.style.display = 'block';
-    } else {
-        noteIndicator.style.display = 'none';
-    }
-    
-    updateProgress();
-    saveProgress();
-    
-    document.getElementById('question-card').classList.add('fade-in');
-    setTimeout(() => {
-        document.getElementById('question-card').classList.remove('fade-in');
-    }, 500);
-}
-
-function nextQuestion() {
-    const questionId = `${currentLevel}-${currentQuestionIndex}`;
-    if (!gameData.completedQuestions[currentLevel].includes(currentQuestionIndex)) {
-        gameData.completedQuestions[currentLevel].push(currentQuestionIndex);
-    }
-    
-    currentQuestionIndex++;
-    
-    if (currentQuestionIndex >= questions[currentLevel].length) {
-        showLevelComplete();
-    } else {
-        showQuestion();
-        document.getElementById('prev-btn').style.display = 'block';
-    }
-}
-
-function previousQuestion() {
-    if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        showQuestion();
-        if (currentQuestionIndex === 0) {
-            document.getElementById('prev-btn').style.display = 'none';
-        }
-    }
-}
-
-function showLevelComplete() {
-    document.getElementById('question-text').innerHTML = 
-        `<div>
-            <h3>Level ${currentLevel} Complete! 🎉</h3>
-            <p>You've explored ${questions[currentLevel].length} questions together.</p>
-            <p>Choose another level to continue your journey, or take time to reflect on what you've shared.</p>
-        </div>`;
-    document.getElementById('next-btn').style.display = 'none';
-    document.getElementById('notes-btn').style.display = 'none';
-    document.getElementById('favorite-btn').style.display = 'none';
-    document.getElementById('question-number').style.display = 'none';
-    document.getElementById('note-indicator').style.display = 'none';
-    
-    updateProgressIndicators();
-}
-
-function updateProgress() {
-    const progress = (currentQuestionIndex / questions[currentLevel].length) * 100;
-    document.getElementById('progress-bar').style.width = progress + '%';
-}
-
-function updateProgressIndicators() {
-    for (let level = 1; level <= 3; level++) {
-        const completed = gameData.completedQuestions[level].length;
-        const indicator = document.getElementById(`progress-${level}`);
-        if (completed > 0) {
-            indicator.textContent = completed;
-            indicator.style.display = 'block';
-        } else {
-            indicator.style.display = 'none';
-        }
-    }
-}
-
-// Notes functionality
-function openNotes() {
-    const questionId = `${currentLevel}-${currentQuestionIndex}`;
-    const existingNote = gameData.notes[questionId] || '';
-    document.getElementById('note-textarea').value = existingNote;
-    document.getElementById('notes-modal').classList.add('active');
-}
-
-function closeNotes() {
-    document.getElementById('notes-modal').classList.remove('active');
-}
-
-function saveNote() {
-    const questionId = `${currentLevel}-${currentQuestionIndex}`;
-    const noteText = document.getElementById('note-textarea').value.trim();
-    
-    if (noteText) {
-        gameData.notes[questionId] = noteText;
-        document.getElementById('note-indicator').style.display = 'block';
-    } else {
-        delete gameData.notes[questionId];
-        document.getElementById('note-indicator').style.display = 'none';
-    }
-    
-    saveProgress();
-    closeNotes();
-}
-
-// Favorites functionality
-function toggleFavorite() {
-    const questionId = `${currentLevel}-${currentQuestionIndex}`;
-    const index = gameData.favorites.indexOf(questionId);
-
-    if (index > -1) {
-        gameData.favorites.splice(index, 1);
-        document.getElementById('favorite-btn').classList.remove('active');
-    } else {
-        gameData.favorites.push(questionId);
-        document.getElementById('favorite-btn').classList.add('active');
-    }
-    
-    saveProgress();
-}
-
-// Menu functionality
-function toggleMenu() {
-    const menu = document.getElementById('menu-dropdown');
-    menu.classList.toggle('active');
-}
-
-function showStats() {
-    toggleMenu();
-    document.getElementById('game-screen').style.display = 'none';
-    document.getElementById('stats-screen').style.display = 'block';
-    
-    let totalCompleted = 0;
-    let totalNotes = 0;
-    
-    for (let level = 1; level <= 3; level++) {
-        totalCompleted += gameData.completedQuestions[level].length;
-    }
-    
-    totalNotes = Object.keys(gameData.notes).length;
-    
-    const statsHTML = `
-        <div class="stat-card">
-            <div class="stat-number">${totalCompleted}</div>
-            <div class="stat-label">Questions Explored</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">${totalNotes}</div>
-            <div class="stat-label">Notes Written</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">${gameData.favorites.length}</div>
-            <div class="stat-label">Favorite Questions</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number">${Math.round(totalCompleted / 90 * 100)}%</div>
-            <div class="stat-label">Journey Progress</div>
-        </div>
-    `;
-    
-    document.getElementById('stats-container').innerHTML = statsHTML;
-}
-
-function showQuestionGrid() {
-    toggleMenu();
-    document.getElementById('game-screen').style.display = 'none';
-    document.getElementById('grid-screen').style.display = 'block';
-    document.getElementById('grid-level-title').textContent = `Level ${currentLevel}: ${['Hearts', 'Souls', 'Bodies'][currentLevel - 1]}`;
-    
-    const grid = document.getElementById('question-grid');
-    grid.innerHTML = '';
-    
-    for (let i = 0; i < questions[currentLevel].length; i++) {
-        const item = document.createElement('div');
-        item.className = 'question-grid-item';
-        item.textContent = i + 1;
-        
-        if (gameData.completedQuestions[currentLevel].includes(i)) {
-            item.classList.add('completed');
-        }
-        
-        if (i === currentQuestionIndex) {
-            item.classList.add('current');
-        }
-        
-        if (gameData.notes[`${currentLevel}-${i}`]) {
-            item.classList.add('has-note');
-        }
-        
-        item.onclick = () => {
-            currentQuestionIndex = i;
-            backToGame();
-            showQuestion();
-        };
-        
-        grid.appendChild(item);
-    }
-}
-
-function backToGame() {
-    document.getElementById('stats-screen').style.display = 'none';
-    document.getElementById('grid-screen').style.display = 'none';
-    document.getElementById('game-screen').style.display = 'block';
-}
-
-// Export functionality
-function exportNotes() {
-    toggleMenu();
-    
-    let exportText = 'Intimate Connection - Your Journey Together\n';
-    exportText += '=========================================\n\n';
-    exportText += `Export Date: ${new Date().toLocaleDateString()}\n\n`;
-    
-    for (let level = 1; level <= 3; level++) {
-        const levelName = ['Hearts', 'Souls', 'Bodies'][level - 1];
-        let hasNotes = false;
-        
-        for (let i = 0; i < questions[level].length; i++) {
-            const questionId = `${level}-${i}`;
-            if (gameData.notes[questionId] || gameData.favorites.includes(questionId)) {
-                if (!hasNotes) {
-                    exportText += `\nLevel ${level}: ${levelName}\n`;
-                    exportText += '-'.repeat(30) + '\n\n';
-                    hasNotes = true;
-                }
-                
-                exportText += `Question ${i + 1}: ${questions[level][i]}\n`;
-                
-                if (gameData.favorites.includes(questionId)) {
-                    exportText += '❤️ Marked as Favorite\n';
-                }
-                
-                if (gameData.notes[questionId]) {
-                    exportText += `Note: ${gameData.notes[questionId]}\n`;
-                }
-                
-                exportText += '\n';
-            }
-        }
-    }
-    
-    // Create download
-    const blob = new Blob([exportText], { type: 'text/plain' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `intimate-connection-notes-${new Date().toISOString().split('T')[0]}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-    
-    alert('Your notes have been exported successfully!');
-}
-
-// Close menu when clicking outside
-document.addEventListener('click', function(event) {
-    const menu = document.getElementById('menu-dropdown');
-    const menuBtn = document.querySelector('.menu-btn');
-    
-    if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
-        menu.classList.remove('active');
-    }
-});
-
-// Close modal when clicking outside
-document.getElementById('notes-modal').addEventListener('click', function(event) {
-    if (event.target === this) {
-        closeNotes();
-    }
-});
-</script>
-</body>
-</html>
-
-    
+            <div class="level-description" id="level-description" style="text-align: center; font-si
