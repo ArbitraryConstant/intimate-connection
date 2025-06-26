@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -221,7 +222,6 @@
             border-radius: 3px;
         }
 
-        /* Notes Modal */
         .modal {
             display: none;
             position: fixed;
@@ -284,7 +284,6 @@
             border-color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Menu */
         .menu-btn {
             position: absolute;
             top: 20px;
@@ -325,7 +324,6 @@
             background: rgba(0, 0, 0, 0.1);
         }
 
-        /* Question Grid */
         .question-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
@@ -417,7 +415,6 @@
             }
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -431,30 +428,6 @@
 
         .fade-in {
             animation: fadeIn 0.5s ease-out;
-        }
-
-        /* Export Styles */
-        .export-options {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            justify-content: center;
-        }
-
-        .export-btn {
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 20px;
-            color: white;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s ease;
-        }
-
-        .export-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -552,7 +525,6 @@
         </div>
     </div>
 
-    <!-- Notes Modal -->
     <div class="modal" id="notes-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -564,101 +536,477 @@
         </div>
     </div>
 
-    <script>
-        // Extended questions - 30 per level
-        const questions = {
-            1: [ // Hearts - Emotional Connection
-                "What's one thing about me that makes you smile when you think about it?",
-                "When did you first realize you had feelings for me?",
-                "What's your favorite memory of us together so far?",
-                "What's one thing you've always wanted to tell me but haven't?",
-                "How do you feel most loved by me?",
-                "What's something you've learned about yourself since being with me?",
-                "What's one of your dreams that you'd like us to experience together?",
-                "When do you feel most connected to me?",
-                "What's something you admire about how I handle challenges?",
-                "How has our relationship changed you as a person?",
-                "What's something you're grateful for about our relationship?",
-                "What's one way I could better support your dreams?",
-                "What's your favorite thing about how we communicate?",
-                "What's something you want us to work on together?",
-                "How do you want to grow together in the next year?",
-                "What small gesture of mine means the most to you?",
-                "What's a tradition you'd like us to start together?",
-                "How do you know when I'm truly happy?",
-                "What's something about me that surprised you?",
-                "What do you think our greatest strength is as a couple?",
-                "What's your favorite way we spend time together?",
-                "How would you describe our love to someone else?",
-                "What's something I do that makes you feel secure?",
-                "What adventure would you like us to take together?",
-                "How do you want us to handle difficult times?",
-                "What's your favorite inside joke we share?",
-                "What quality of mine do you hope never changes?",
-                "How do you see our daily life in 5 years?",
-                "What's something you want to learn about me?",
-                "What moment made you think 'I want to be with this person forever'?"
-            ],
-            2: [ // Souls - Deep Intimacy
-                "What's your deepest fear about our relationship?",
-                "What's something you've never told anyone that you'd like to share with me?",
-                "What does true intimacy mean to you?",
-                "What's one thing about yourself that you're still discovering?",
-                "How do you want to be remembered by me?",
-                "What's something you need to feel completely safe with me?",
-                "What's one way we could be more vulnerable with each other?",
-                "What's your biggest insecurity, and how can I help you with it?",
-                "What's something you've always wanted to try but been afraid to?",
-                "How do you want our love to evolve over time?",
-                "What's something about your past that still affects you today?",
-                "What's one thing you need from me when you're struggling?",
-                "How do you want us to handle conflict in our relationship?",
-                "What's something you're proud of about how we love each other?",
-                "What's one way we could deepen our spiritual connection?",
-                "What childhood experience shaped who you are today?",
-                "What's your biggest regret, and what did it teach you?",
-                "How do you define unconditional love?",
-                "What's a belief you held that our relationship has changed?",
-                "What scares you most about being truly seen?",
-                "How has loving me challenged you to grow?",
-                "What's a dream you've never shared with anyone?",
-                "What do you need to forgive yourself for?",
-                "How do you want us to support each other's healing?",
-                "What's the hardest truth you've had to accept about yourself?",
-                "What does emotional safety look like to you?",
-                "How do you want to face life's uncertainties together?",
-                "What's something you're still learning to receive?",
-                "What legacy do you want our love to leave?",
-                "How has our relationship helped you heal?"
-            ],
-            3: [ // Bodies - Physical Intimacy
-                "What's something about physical intimacy that you've always wanted to explore?",
-                "How do you feel most desired by me?",
-                "What's your favorite way for us to show physical affection?",
-                "What's something new you'd like to try together?",
-                "How do you like to be touched when you need comfort?",
-                "What's something that makes you feel confident in your body?",
-                "What's one thing you love about our physical connection?",
-                "How can we create more intimacy in our daily lives?",
-                "What's something you find irresistible about me?",
-                "What's your favorite memory of our physical connection?",
-                "How do you want us to maintain our physical connection over time?",
-                "What's something you've been curious about but haven't brought up?",
-                "How do you like to initiate physical intimacy?",
-                "What's one way we could make our intimate moments more special?",
-                "What makes you feel most connected to me physically?",
-                "What's your favorite place to be kissed?",
-                "How do you like to be held?",
-                "What's something that always makes you feel attractive?",
-                "What type of physical affection do you crave most?",
-                "How can I help you feel more comfortable in your body?",
-                "What's a sensation that brings you peace?",
-                "How do you want to explore sensuality together?",
-                "What's your favorite way to relax together physically?",
-                "What boundaries are important for you to feel safe?",
-                "How does physical touch help you feel loved?",
-                "What's something you want to understand better about my desires?",
-                "How can we better communicate during intimate moments?",
-                "What makes you feel most present in your body?",
-                "What's a fantasy you'd feel safe exploring with me?",
-                "How do you want our physical relationship to grow?"
+<script>
+// Extended questions - 30 per level
+const questions = {
+    1: [
+        "What's one thing about me that makes you smile when you think about it?",
+        "When did you first realize you had feelings for me?",
+        "What's your favorite memory of us together so far?",
+        "What's one thing you've always wanted to tell me but haven't?",
+        "How do you feel most loved by me?",
+        "What's something you've learned about yourself since being with me?",
+        "What's one of your dreams that you'd like us to experience together?",
+        "When do you feel most connected to me?",
+        "What's something you admire about how I handle challenges?",
+        "How has our relationship changed you as a person?",
+        "What's something you're grateful for about our relationship?",
+        "What's one way I could better support your dreams?",
+        "What's your favorite thing about how we communicate?",
+        "What's something you want us to work on together?",
+        "How do you want to grow together in the next year?",
+        "What small gesture of mine means the most to you?",
+        "What's a tradition you'd like us to start together?",
+        "How do you know when I'm truly happy?",
+        "What's something about me that surprised you?",
+        "What do you think our greatest strength is as a couple?",
+        "What's your favorite way we spend time together?",
+        "How would you describe our love to someone else?",
+        "What's something I do that makes you feel secure?",
+        "What adventure would you like us to take together?",
+        "How do you want us to handle difficult times?",
+        "What's your favorite inside joke we share?",
+        "What quality of mine do you hope never changes?",
+        "How do you see our daily life in 5 years?",
+        "What's something you want to learn about me?",
+        "What moment made you think 'I want to be with this person forever'?"
+    ],
+    2: [
+        "What's your deepest fear about our relationship?",
+        "What's something you've never told anyone that you'd like to share with me?",
+        "What does true intimacy mean to you?",
+        "What's one thing about yourself that you're still discovering?",
+        "How do you want to be remembered by me?",
+        "What's something you need to feel completely safe with me?",
+        "What's one way we could be more vulnerable with each other?",
+        "What's your biggest insecurity, and how can I help you with it?",
+        "What's something you've always wanted to try but been afraid to?",
+        "How do you want our love to evolve over time?",
+        "What's something about your past that still affects you today?",
+        "What's one thing you need from me when you're struggling?",
+        "How do you want us to handle conflict in our relationship?",
+        "What's something you're proud of about how we love each other?",
+        "What's one way we could deepen our spiritual connection?",
+        "What childhood experience shaped who you are today?",
+        "What's your biggest regret, and what did it teach you?",
+        "How do you define unconditional love?",
+        "What's a belief you held that our relationship has changed?",
+        "What scares you most about being truly seen?",
+        "How has loving me challenged you to grow?",
+        "What's a dream you've never shared with anyone?",
+        "What do you need to forgive yourself for?",
+        "How do you want us to support each other's healing?",
+        "What's the hardest truth you've had to accept about yourself?",
+        "What does emotional safety look like to you?",
+        "How do you want to face life's uncertainties together?",
+        "What's something you're still learning to receive?",
+        "What legacy do you want our love to leave?",
+        "How has our relationship helped you heal?"
+    ],
+    3: [
+        "What's something about physical intimacy that you've always wanted to explore?",
+        "How do you feel most desired by me?",
+        "What's your favorite way for us to show physical affection?",
+        "What's something new you'd like to try together?",
+        "How do you like to be touched when you need comfort?",
+        "What's something that makes you feel confident in your body?",
+        "What's one thing you love about our physical connection?",
+        "How can we create more intimacy in our daily lives?",
+        "What's something you find irresistible about me?",
+        "What's your favorite memory of our physical connection?",
+        "How do you want us to maintain our physical connection over time?",
+        "What's something you've been curious about but haven't brought up?",
+        "How do you like to initiate physical intimacy?",
+        "What's one way we could make our intimate moments more special?",
+        "What makes you feel most connected to me physically?",
+        "What's your favorite place to be kissed?",
+        "How do you like to be held?",
+        "What's something that always makes you feel attractive?",
+        "What type of physical affection do you crave most?",
+        "How can I help you feel more comfortable in your body?",
+        "What's a sensation that brings you peace?",
+        "How do you want to explore sensuality together?",
+        "What's your favorite way to relax together physically?",
+        "What boundaries are important for you to feel safe?",
+        "How does physical touch help you feel loved?",
+        "What's something you want to understand better about my desires?",
+        "How can we better communicate during intimate moments?",
+        "What makes you feel most present in your body?",
+        "What's a fantasy you'd feel safe exploring with me?",
+        "How do you want our physical relationship to grow?"
+    ]
+};
+
+const levelDescriptions = {
+    1: "Emotional connection and getting to know each other's hearts",
+    2: "Deep vulnerability and soul-level intimacy",
+    3: "Physical connection and exploring desires together"
+};
+
+// State management
+let currentLevel = 1;
+let currentQuestionIndex = 0;
+let gameStarted = false;
+let gameData = {
+    completedQuestions: { 1: [], 2: [], 3: [] },
+    notes: {},
+    favorites: [],
+    lastPlayed: null,
+    currentLevel: 1,
+    currentQuestion: 0
+};
+
+// Initialize app
+document.addEventListener('DOMContentLoaded', function() {
+    loadProgress();
+    if (gameData.lastPlayed) {
+        document.getElementById('resume-option').style.display = 'block';
+    }
+});
+
+// Storage functions
+function saveProgress() {
+    gameData.lastPlayed = new Date().toISOString();
+    gameData.currentLevel = currentLevel;
+    gameData.currentQuestion = currentQuestionIndex;
+    localStorage.setItem('intimateConnection', JSON.stringify(gameData));
+    updateProgressIndicators();
+}
+
+function loadProgress() {
+    const saved = localStorage.getItem('intimateConnection');
+    if (saved) {
+        gameData = JSON.parse(saved);
+    }
+}
+
+function resetProgress() {
+    if (confirm('Are you sure you want to reset all progress? This will delete all your notes and completed questions.')) {
+        localStorage.removeItem('intimateConnection');
+        gameData = {
+            completedQuestions: { 1: [], 2: [], 3: [] },
+            notes: {},
+            favorites: [],
+            lastPlayed: null,
+            currentLevel: 1,
+            currentQuestion: 0
+        };
+        location.reload();
+    }
+}
+
+// Game navigation functions
+function startGame() {
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('game-screen').style.display = 'block';
+    gameStarted = true;
+    updateProgressIndicators();
+}
+
+function resumeGame() {
+    startGame();
+    currentLevel = gameData.currentLevel;
+    currentQuestionIndex = gameData.currentQuestion;
+    selectLevel(currentLevel);
+}
+
+function selectLevel(level) {
+    currentLevel = level;
+    currentQuestionIndex = 0;
+    
+    document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.level-${level}`).classList.add('active');
+    
+    document.getElementById('level-description').textContent = levelDescriptions[level];
+    
+    showQuestion();
+    
+    document.getElementById('next-btn').style.display = 'block';
+    document.getElementById('notes-btn').style.display = 'block';
+    document.getElementById('prev-btn').style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+}
+
+function showQuestion() {
+    const questionText = questions[currentLevel][currentQuestionIndex];
+    document.getElementById('question-text').textContent = questionText;
+    document.getElementById('question-number').textContent = `Question ${currentQuestionIndex + 1} of ${questions[currentLevel].length}`;
+    
+    const questionId = `${currentLevel}-${currentQuestionIndex}`;
+    const favoriteBtn = document.getElementById('favorite-btn');
+    favoriteBtn.classList.toggle('active', gameData.favorites.includes(questionId));
+    
+    const noteIndicator = document.getElementById('note-indicator');
+    if (gameData.notes[questionId]) {
+        noteIndicator.style.display = 'block';
+    } else {
+        noteIndicator.style.display = 'none';
+    }
+    
+    updateProgress();
+    saveProgress();
+    
+    document.getElementById('question-card').classList.add('fade-in');
+    setTimeout(() => {
+        document.getElementById('question-card').classList.remove('fade-in');
+    }, 500);
+}
+
+function nextQuestion() {
+    const questionId = `${currentLevel}-${currentQuestionIndex}`;
+    if (!gameData.completedQuestions[currentLevel].includes(currentQuestionIndex)) {
+        gameData.completedQuestions[currentLevel].push(currentQuestionIndex);
+    }
+    
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex >= questions[currentLevel].length) {
+        showLevelComplete();
+    } else {
+        showQuestion();
+        document.getElementById('prev-btn').style.display = 'block';
+    }
+}
+
+function previousQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        showQuestion();
+        if (currentQuestionIndex === 0) {
+            document.getElementById('prev-btn').style.display = 'none';
+        }
+    }
+}
+
+function showLevelComplete() {
+    document.getElementById('question-text').innerHTML = 
+        `<div>
+            <h3>Level ${currentLevel} Complete! 🎉</h3>
+            <p>You've explored ${questions[currentLevel].length} questions together.</p>
+            <p>Choose another level to continue your journey, or take time to reflect on what you've shared.</p>
+        </div>`;
+    document.getElementById('next-btn').style.display = 'none';
+    document.getElementById('notes-btn').style.display = 'none';
+    document.getElementById('favorite-btn').style.display = 'none';
+    document.getElementById('question-number').style.display = 'none';
+    document.getElementById('note-indicator').style.display = 'none';
+    
+    updateProgressIndicators();
+}
+
+function updateProgress() {
+    const progress = (currentQuestionIndex / questions[currentLevel].length) * 100;
+    document.getElementById('progress-bar').style.width = progress + '%';
+}
+
+function updateProgressIndicators() {
+    for (let level = 1; level <= 3; level++) {
+        const completed = gameData.completedQuestions[level].length;
+        const indicator = document.getElementById(`progress-${level}`);
+        if (completed > 0) {
+            indicator.textContent = completed;
+            indicator.style.display = 'block';
+        } else {
+            indicator.style.display = 'none';
+        }
+    }
+}
+
+// Notes functionality
+function openNotes() {
+    const questionId = `${currentLevel}-${currentQuestionIndex}`;
+    const existingNote = gameData.notes[questionId] || '';
+    document.getElementById('note-textarea').value = existingNote;
+    document.getElementById('notes-modal').classList.add('active');
+}
+
+function closeNotes() {
+    document.getElementById('notes-modal').classList.remove('active');
+}
+
+function saveNote() {
+    const questionId = `${currentLevel}-${currentQuestionIndex}`;
+    const noteText = document.getElementById('note-textarea').value.trim();
+    
+    if (noteText) {
+        gameData.notes[questionId] = noteText;
+        document.getElementById('note-indicator').style.display = 'block';
+    } else {
+        delete gameData.notes[questionId];
+        document.getElementById('note-indicator').style.display = 'none';
+    }
+    
+    saveProgress();
+    closeNotes();
+}
+
+// Favorites functionality
+function toggleFavorite() {
+    const questionId = `${currentLevel}-${currentQuestionIndex}`;
+    const index = gameData.favorites.indexOf(questionId);
+
+    if (index > -1) {
+        gameData.favorites.splice(index, 1);
+        document.getElementById('favorite-btn').classList.remove('active');
+    } else {
+        gameData.favorites.push(questionId);
+        document.getElementById('favorite-btn').classList.add('active');
+    }
+    
+    saveProgress();
+}
+
+// Menu functionality
+function toggleMenu() {
+    const menu = document.getElementById('menu-dropdown');
+    menu.classList.toggle('active');
+}
+
+function showStats() {
+    toggleMenu();
+    document.getElementById('game-screen').style.display = 'none';
+    document.getElementById('stats-screen').style.display = 'block';
+    
+    let totalCompleted = 0;
+    let totalNotes = 0;
+    
+    for (let level = 1; level <= 3; level++) {
+        totalCompleted += gameData.completedQuestions[level].length;
+    }
+    
+    totalNotes = Object.keys(gameData.notes).length;
+    
+    const statsHTML = `
+        <div class="stat-card">
+            <div class="stat-number">${totalCompleted}</div>
+            <div class="stat-label">Questions Explored</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">${totalNotes}</div>
+            <div class="stat-label">Notes Written</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">${gameData.favorites.length}</div>
+            <div class="stat-label">Favorite Questions</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">${Math.round(totalCompleted / 90 * 100)}%</div>
+            <div class="stat-label">Journey Progress</div>
+        </div>
+    `;
+    
+    document.getElementById('stats-container').innerHTML = statsHTML;
+}
+
+function showQuestionGrid() {
+    toggleMenu();
+    document.getElementById('game-screen').style.display = 'none';
+    document.getElementById('grid-screen').style.display = 'block';
+    document.getElementById('grid-level-title').textContent = `Level ${currentLevel}: ${['Hearts', 'Souls', 'Bodies'][currentLevel - 1]}`;
+    
+    const grid = document.getElementById('question-grid');
+    grid.innerHTML = '';
+    
+    for (let i = 0; i < questions[currentLevel].length; i++) {
+        const item = document.createElement('div');
+        item.className = 'question-grid-item';
+        item.textContent = i + 1;
+        
+        if (gameData.completedQuestions[currentLevel].includes(i)) {
+            item.classList.add('completed');
+        }
+        
+        if (i === currentQuestionIndex) {
+            item.classList.add('current');
+        }
+        
+        if (gameData.notes[`${currentLevel}-${i}`]) {
+            item.classList.add('has-note');
+        }
+        
+        item.onclick = () => {
+            currentQuestionIndex = i;
+            backToGame();
+            showQuestion();
+        };
+        
+        grid.appendChild(item);
+    }
+}
+
+function backToGame() {
+    document.getElementById('stats-screen').style.display = 'none';
+    document.getElementById('grid-screen').style.display = 'none';
+    document.getElementById('game-screen').style.display = 'block';
+}
+
+// Export functionality
+function exportNotes() {
+    toggleMenu();
+    
+    let exportText = 'Intimate Connection - Your Journey Together\n';
+    exportText += '=========================================\n\n';
+    exportText += `Export Date: ${new Date().toLocaleDateString()}\n\n`;
+    
+    for (let level = 1; level <= 3; level++) {
+        const levelName = ['Hearts', 'Souls', 'Bodies'][level - 1];
+        let hasNotes = false;
+        
+        for (let i = 0; i < questions[level].length; i++) {
+            const questionId = `${level}-${i}`;
+            if (gameData.notes[questionId] || gameData.favorites.includes(questionId)) {
+                if (!hasNotes) {
+                    exportText += `\nLevel ${level}: ${levelName}\n`;
+                    exportText += '-'.repeat(30) + '\n\n';
+                    hasNotes = true;
+                }
+                
+                exportText += `Question ${i + 1}: ${questions[level][i]}\n`;
+                
+                if (gameData.favorites.includes(questionId)) {
+                    exportText += '❤️ Marked as Favorite\n';
+                }
+                
+                if (gameData.notes[questionId]) {
+                    exportText += `Note: ${gameData.notes[questionId]}\n`;
+                }
+                
+                exportText += '\n';
+            }
+        }
+    }
+    
+    // Create download
+    const blob = new Blob([exportText], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `intimate-connection-notes-${new Date().toISOString().split('T')[0]}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+    
+    alert('Your notes have been exported successfully!');
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', function(event) {
+    const menu = document.getElementById('menu-dropdown');
+    const menuBtn = document.querySelector('.menu-btn');
+    
+    if (!menu.contains(event.target) && !menuBtn.contains(event.target)) {
+        menu.classList.remove('active');
+    }
+});
+
+// Close modal when clicking outside
+document.getElementById('notes-modal').addEventListener('click', function(event) {
+    if (event.target === this) {
+        closeNotes();
+    }
+});
+</script>
+</body>
+</html>
+
+    
