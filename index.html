@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Intimate Connection - A game for couples to deepen their relationship through meaningful conversations">
     <title>Intimate Connection - Deepen Your Love</title>
+    <!-- Essential for cache control on some browsers/servers, though hard refresh is often needed first. -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <style>
         /* General Reset */
         * {
@@ -1159,20 +1163,17 @@ function showQuestionGrid() {
             item.classList.add('current');
         }
         
-        // --- FIX WAS HERE ---
-        // Corrected the incomplete line to properly check for notes
         if (gameData.notes[`${currentLevel}-${i}`]) {
             item.classList.add('has-note');
         }
-        // --- END FIX ---
 
-        // Add click listener to navigate to selected question
+        // --- FIX APPLIED HERE ---
+        // Simplified click handler to only set the index and call backToGame()
         item.onclick = () => {
             currentQuestionIndex = i; // Set selected question as current
-            backToGame(); // Go back to game screen
-            selectLevel(currentLevel); // Re-render question (already showing correct level)
-            showQuestion(); // Show the newly selected question
+            backToGame(); // Go back to game screen, which will then call showQuestion() with the updated index
         };
+        // --- END FIX ---
         grid.appendChild(item);
     }
 }
