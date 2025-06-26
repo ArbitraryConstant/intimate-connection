@@ -93,15 +93,16 @@
             cursor: pointer;
             transition: all 0.3s ease; /* Smooth transitions */
             font-weight: bold;
-            color: white;
+            background: #cccccc; /* Default gray background */
+            color: #333; /* Darker text for gray background */
             position: relative; /* For progress indicator positioning */
             box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Subtle shadow for buttons */
         }
 
-        /* Level specific backgrounds */
-        .level-1 { background: var(--level-1); }
-        .level-2 { background: var(--level-2); }
-        .level-3 { background: var(--level-3); }
+        /* Specific gradients apply only when the button is active */
+        .level-1.active { background: var(--level-1); color: white; }
+        .level-2.active { background: var(--level-2); color: white; }
+        .level-3.active { background: var(--level-3); color: white; }
 
         .level-btn:hover {
             transform: translateY(-2px); /* Lift on hover */
@@ -161,7 +162,7 @@
             right: 20px;
             background: none;
             border: none;
-            color: white;
+            color: rgba(255, 255, 255, 0.5); /* Changed to transparent gray */
             cursor: pointer;
             font-size: 1.5em;
             transition: all 0.3s ease;
@@ -1167,13 +1168,11 @@ function showQuestionGrid() {
             item.classList.add('has-note');
         }
 
-        // --- FIX APPLIED HERE ---
         // Simplified click handler to only set the index and call backToGame()
         item.onclick = () => {
             currentQuestionIndex = i; // Set selected question as current
             backToGame(); // Go back to game screen, which will then call showQuestion() with the updated index
         };
-        // --- END FIX ---
         grid.appendChild(item);
     }
 }
