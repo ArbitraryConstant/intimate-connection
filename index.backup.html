@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Intimate Connection - A game for couples to deepen their relationship through meaningful conversations">
+    <title>Intimate Connection - Deepen Your Love</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(45deg, #ffd89b, #19547b);
+            --level-1: linear-gradient(45deg, #4facfe, #00f2fe);
+            --level-2: linear-gradient(45deg, #f093fb, #f5576c);
+            --level-3: linear-gradient(45deg, #ffecd2, #fcb69f);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-primary: white;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-primary);
+            padding: 20px;
+        }
+
+        .game-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 40px var(--shadow);
+            border: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .level-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .level-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: white;
+            position: relative;
+        }
+
+        .level-1 { background: var(--level-1); }
+        .level-2 { background: var(--level-2); }
+        .level-3 { background: var(--level-3); }
+
+        .level-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px var(--shadow);
+        }
+
+        .level-btn.active {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px var(--shadow);
+        }
+
+        .level-btn .progress-indicator {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #4caf50;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .question-number {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: all 0.3s ease;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .favorite-btn.active {
+            color: #ff6b6b;
+        }
+
+        .question-text {
+            font-size: 1.4em;
+            line-height: 1.6;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .note-indicator {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            cursor: pointer;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: white;
+            background: var(--primary-gradient);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px var(--shadow);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .progress {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--secondary-gradient);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* Notes Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--primary-gradient);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .note-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+        }
+
+        .note-textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Menu */
+        .menu-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .menu-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 10px;
+            padding: 10px 0;
+            display: none;
+            box-shadow: 0 10px 20px var(--shadow);
+            z-index: 100;
+        }
+
+        .menu-dropdown.active {
+            display: block;
+        }
+
+        .menu-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Question Grid */
+        .question-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .question-grid-item {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .question-grid-item:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .question-grid-item.completed {
+            background: rgba(76, 175, 80, 0.5);
+        }
+
+        .question-grid-item.current {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        .question-grid-item.has-note::after {
+            content: '📝';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 0.8em;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .game-container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .level-selector {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .question-text {
+                font-size: 1.2em;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Export Styles */
+        .export-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .export-btn {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .export-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
+        <div class="menu-dropdown" id="menu-dropdown">
+            <div class="menu-item" onclick="showStats()">📊 View Stats</div>
+            <div class="menu-item" onclick="showQuestionGrid()">📱 Question Grid</div>
+            <div class="menu-item" onclick="exportNotes()">📥 Export Notes</div>
+            <div class="menu-item" onclick="resetProgress()">🔄 Reset Progress</div>
+        </div>
+
+        <div id="start-screen" class="start-screen">
+            <h1>Intimate Connection</h1>
+            <p class="subtitle">A journey of deeper connection for couples</p>
+            
+            <div class="instructions" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 20px; margin: 20px 0; text-align: left; line-height: 1.6;">
+                <h3 style="margin-bottom: 10px; color: #ffd89b;">How to Play:</h3>
+                <p>• Choose a level that feels right for your relationship</p>
+                <p>• Take turns asking each other the questions</p>
+                <p>• Listen deeply and answer honestly</p>
+                <p>• Save notes to remember special moments</p>
+                <p>• Mark your favorite questions with ❤️</p>
+                <p>• Your progress is automatically saved</p>
+            </div>
+            
+            <button class="btn" onclick="startGame()">Begin Your Journey</button>
+            
+            <div id="resume-option" style="display: none; margin-top: 20px;">
+                <p style="margin-bottom: 10px;">Welcome back! You have saved progress.</p>
+                <button class="btn btn-secondary" onclick="resumeGame()">Continue Where You Left Off</button>
+            </div>
+        </div>
+
+        <div id="game-screen" style="display: none;">
+            <h1>Intimate Connection</h1>
+            
+            <div class="level-selector">
+                <button class="level-btn level-1" onclick="selectLevel(1)">
+                    Level 1: Hearts
+                    <span class="progress-indicator" id="progress-1" style="display: none;">0</span>
+                </button>
+                <button class="level-btn level-2" onclick="selectLevel(2)">
+                    Level 2: Souls
+                    <span class="progress-indicator" id="progress-2" style="display: none;">0</span>
+                </button>
+                <button class="level-btn level-3" onclick="selectLevel(3)">
+                    Level 3: Bodies
+                    <span class="progress-indicator" id="progress-3" style="display: none;">0</span>
+                </button>
+            </div>
+            
+            <div class="level-description" id="level-description" style="text-align: center; font-size: 0.9em; opacity: 0.8; margin-bottom: 20px; font-style: italic;"></div>
+            
+            <div class="progress">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div class="question-card" id="question-card">
+                <span class="question-number" id="question-number"></span>
+                <button class="favorite-btn" id="favorite-btn" onclick="toggleFavorite()">❤️</button>
+                <div class="question-text" id="question-text">
+                    Select a level to begin your journey of connection
+                </div>
+                <div class="note-indicator" id="note-indicator" onclick="openNotes()" style="display: none;">
+                    📝 View/Add Note
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn btn-secondary" onclick="previousQuestion()" id="prev-btn" style="display: none;">
+                    ← Previous
+                </button>
+                <button class="btn" onclick="openNotes()" id="notes-btn" style="display: none;">
+                    📝 Add Note
+                </button>
+                <button class="btn" onclick="nextQuestion()" id="next-btn" style="display: none;">
+                    Next →
+                </button>
+            </div>
+        </div>
+
+        <div id="stats-screen" style="display: none;">
+            <h1>Your Journey Together</h1>
+            <div class="stats-container" id="stats-container"></div>
+            <button class="btn" onclick="backToGame()" style="margin-top: 20px;">Back to Questions</button>
+        </div>
+
+        <div id="grid-screen" style="display: none;">
+            <h1>Question Overview</h1>
+            <p class="subtitle" id="grid-level-title">Level 1: Hearts</p>
+            <div class="question-grid" id="question-grid"></div>
+            <button class="btn" onclick="backToGame()" style="margin-top: 20px;">Back to Game</button>
+        </div>
+    </div>
+
+    <!-- Notes Modal -->
+    <div class="modal" id="notes-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Your Notes</h2>
+                <button class="close-btn" onclick="closeNotes()">×</button>
+            </div>
+            <textarea class="note-textarea" id="note-textarea" placeholder="Write your thoughts, feelings, or memories about this question..."></textarea>
+            <button class="btn" onclick="saveNote()" style="margin-top: 20px;">Save Note</button>
+        </div>
+    </div>
+
+    <script>
+        // Extended questions - 30 per level
+        const questions = {
+            1: [ // Hearts - Emotional Connection
+                "What's one thing about me that makes you smile when you think about it?",
+                "When did you first realize you had feelings for me?",
+                "What's your favorite memory of us together so far?",
+                "What's one thing you've always wanted to tell me but haven't?",
+                "How do you feel most loved by me?",
+                "What's something you've learned about yourself since being with me?",
+                "What's one of your dreams that you'd like us to experience together?",
+                "When do you feel most connected to me?",
+                "What's something you admire about how I handle challenges?",
+                "How has our relationship changed you as a person?",
+                "What's something you're grateful for about our relationship?",
+                "What's one way I could better support your dreams?",
+                "What's your favorite thing about how we communicate?",
+                "What's something you want us to work on together?",
+                "How do you want to grow together in the next year?",
+                "What small gesture of mine means the most to you?",
+                "What's a tradition you'd like us to start together?",
+                "How do you know when I'm truly happy?",
+                "What's something about me that surprised you?",
+                "What do you think our greatest strength is as a couple?",
+                "What's your favorite way we spend time together?",
+                "How would you describe our love to someone else?",
+                "What's something I do that makes you feel secure?",
+                "What adventure would you like us to take together?",
+                "How do you want us to handle difficult times?",
+                "What's your favorite inside joke we share?",
+                "What quality of mine do you hope never changes?",
+                "How do you see our daily life in 5 years?",
+                "What's something you want to learn about me?",
+                "What moment made you think 'I want to be with this person forever'?"
+            ],
+            2: [ // Souls - Deep Intimacy
+                "What's your deepest fear about our relationship?",
+                "What's something you've never told anyone that you'd like to share with me?",
+                "What does true intimacy mean to you?",
+                "What's one thing about yourself that you're still discovering?",
+                "How do you want to be remembered by me?",
+                "What's something you need to feel completely safe with me?",
+                "What's one way we could be more vulnerable with each other?",
+                "What's your biggest insecurity, and how can I help you with it?",
+                "What's something you've always wanted to try but been afraid to?",
+                "How do you want our love to evolve over time?",
+                "What's something about your past that still affects you today?",
+                "What's one thing you need from me when you're struggling?",
+                "How do you want us to handle conflict in our relationship?",
+                "What's something you're proud of about how we love each other?",
+                "What's one way we could deepen our spiritual connection?",
+                "What childhood experience shaped who you are today?",
+                "What's your biggest regret, and what did it teach you?",
+                "How do you define unconditional love?",
+                "What's a belief you held that our relationship has changed?",
+                "What scares you most about being truly seen?",
+                "How has loving me challenged you to grow?",
+                "What's a dream you've never shared with anyone?",
+                "What do you need to forgive yourself for?",
+                "How do you want us to support each other's healing?",
+                "What's the hardest truth you've had to accept about yourself?",
+                "What does emotional safety look like to you?",
+                "How do you want to face life's uncertainties together?",
+                "What's something you're still learning to receive?",
+                "What legacy do you want our love to leave?",
+                "How has our relationship helped you heal?"
+            ],
+            3: [ // Bodies - Physical Intimacy
+                "What's something about physical intimacy that you've always wanted to explore?",
+                "How do you feel most desired by me?",
+                "What's your favorite way for us to show physical affection?",
+                "What's something new you'd like to try together?",
+                "How do you like to be touched when you need comfort?",
+                "What's something that makes you feel confident in your body?",
+                "What's one thing you love about our physical connection?",
+                "How can we create more intimacy in our daily lives?",
+                "What's something you find irresistible about me?",
+                "What's your favorite memory of our physical connection?",
+                "How do you want us to maintain our physical connection over time?",
+                "What's something you've been curious about but haven't brought up?",
+                "How do you like to initiate physical intimacy?",
+                "What's one way we could make our intimate moments more special?",
+                "What makes you feel most connected to me physically?",
+                "What's your favorite place to be kissed?",
+                "How do you like to be held?",
+                "What's something that always makes you feel attractive?",
+                "What type of physical affection do you crave most?",
+                "How can I help you feel more comfortable in your body?",
+                "What's a sensation that brings you peace?",
+                "How do you want to explore sensuality together?",
+                "What's your favorite way to relax together physically?",
+                "What boundaries are important for you to feel safe?",
+                "How does physical touch help you feel loved?",
+                "What's something you want to understand better about my desires?",
+                "How can we better communicate during intimate moments?",
+                "What makes you feel most present in your body?",
+                "What's a fantasy you'd feel safe exploring with me?",
+                "How do you want our physical relationship to grow?"
