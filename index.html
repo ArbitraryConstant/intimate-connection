@@ -45,6 +45,8 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
+            /* Add padding-bottom to ensure space for fixed menu button if it overlaps content */
+            padding-bottom: 100px; /* Adjust based on fixed menu button height + margin */
         }
 
         .game-container::before {
@@ -257,17 +259,9 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* Controls (Buttons) */
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 25px;
-            flex-wrap: wrap; /* Allow wrapping on small screens */
-        }
-
+        /* General Button Styling */
         .btn {
-            padding: 15px 35px;
+            padding: 15px 25px; /* Default padding for smaller buttons like Add Note, Previous, Menu */
             border: none;
             border-radius: 50px;
             font-size: 1em;
@@ -402,12 +396,11 @@
             margin: 0 5px;
         }
 
-        /* Menu Button and Dropdown */
-        .menu-btn {
-            position: fixed; /* Changed to fixed */
-            bottom: 20px; /* Positioned at the bottom */
-            left: 50%; /* Centered horizontally */
-            transform: translateX(-50%); /* Adjust for perfect centering */
+        /* Menu Button (Fixed to viewport bottom-left) */
+        .menu-btn.fixed-bottom-left {
+            position: fixed;
+            bottom: 20px;
+            left: 20px; /* Aligned with the left edge of the viewport */
             background: rgba(255, 255, 255, 0.2);
             border: none;
             padding: 10px 15px;
@@ -415,30 +408,30 @@
             color: white;
             cursor: pointer;
             font-size: 0.9em;
-            z-index: 101; /* Ensure it's above other elements */
+            z-index: 101;
             transition: background 0.3s ease;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .menu-btn:hover {
+        .menu-btn.fixed-bottom-left:hover {
             background: rgba(255, 255, 255, 0.3);
         }
 
+        /* Menu Dropdown (Fixed, positioned relative to the fixed menu button) */
         .menu-dropdown {
-            position: fixed; /* Changed to fixed */
-            bottom: 60px; /* Positioned above the button */
-            left: 50%; /* Centered horizontally */
-            transform: translateX(-50%); /* Adjust for perfect centering */
-            background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
-            color: #333; /* Dark text for contrast */
+            position: fixed;
+            bottom: 70px; /* Adjust based on menu button height + desired gap */
+            left: 20px; /* Align with the fixed menu button */
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
             border-radius: 10px;
             padding: 10px 0;
             display: none;
             box-shadow: 0 10px 20px rgba(0,0,0,0.3);
             z-index: 100;
-            min-width: 180px; /* Ensure sufficient width */
+            min-width: 180px;
             font-weight: 400;
         }
 
@@ -627,6 +620,17 @@
             .btn {
                 padding: 12px 25px;
             }
+
+            /* Adjust button sizes for smaller screens */
+            .top-game-controls .btn {
+                padding: 12px 15px;
+                font-size: 0.8em;
+            }
+
+            .full-width-btn {
+                padding: 15px 25px;
+                font-size: 1em;
+            }
         }
 
         /* Animations */
@@ -664,21 +668,87 @@
         .liked-question-item strong {
             color: #ffbe0b; /* Highlight level/prompt numbers */
         }
+
+        /* Main Game Controls (within game-container) */
+        .game-controls {
+            display: flex;
+            flex-direction: column; /* Stack the two rows of buttons */
+            gap: 15px; /* Gap between the top row and the full-width Next Vibe button */
+            margin-top: 25px; /* Space from the question card */
+            width: 100%; /* Take full width of game-container's padding area */
+            padding: 0 25px; /* Align with question-card's text content */
+        }
+
+        .top-game-controls {
+            display: flex;
+            justify-content: space-between; /* Distribute Prev and Add Note */
+            align-items: center;
+            width: 100%;
+        }
+
+        .top-game-controls .btn {
+            flex-grow: 1; /* Allow them to grow */
+            flex-basis: 0; /* Distribute space evenly */
+            margin: 0 5px; /* Small margin between them */
+        }
+
+        .full-width-btn {
+            width: 100%; /* Make Next Vibe button full width */
+            padding: 18px 35px; /* Larger padding for primary button */
+            font-size: 1.1em; /* Larger font */
+            position: relative; /* For the arrow icon */
+        }
+
+        /* LLM Response Modal */
+        .llm-response-modal-content {
+            background: linear-gradient(135deg, #764ba2 0%, #3a86ff 100%);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            color: white;
+            text-align: left;
+        }
+
+        .llm-response-modal-content h2 {
+            color: #06ffa5;
+            margin-bottom: 15px;
+        }
+
+        .llm-response-modal-content p {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .loading-indicator {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #06ffa5;
+        }
+
+        .loading-indicator::after {
+            content: '...';
+            animation: dots 1s steps(3, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { color: rgba(0,0,0,0); text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+            40% { color: white; text-shadow: .25em 0 0 rgba(0,0,0,0), .5em 0 0 rgba(0,0,0,0); }
+            60% { text-shadow: .25em 0 0 white, .5em 0 0 rgba(0,0,0,0); }
+            80%, 100% { text-shadow: .25em 0 0 white, .5em 0 0 white; }
+        }
+
     </style>
 </head>
 <body>
     <div class="game-container">
-        <!-- Menu Button -->
-        <button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
-        <!-- Menu Dropdown -->
-        <div class="menu-dropdown" id="menu-dropdown">
-            <div class="menu-item" onclick="showStats()">📊 View Stats</div>
-            <div class="menu-item" onclick="showQuestionGrid()">📱 Prompt Grid</div>
-            <div class="menu-item" onclick="showFavorites()">❤️ View Liked Prompts</div> <!-- New menu item -->
-            <div class="menu-item" onclick="exportNotes()">📥 Export Notes</div>
-            <div class="menu-item" onclick="resetProgress()">🔄 Reset Progress</div>
-        </div>
-
         <!-- Start Screen -->
         <div id="start-screen" class="start-screen">
             <h1>Hearts Unveiled</h1>
@@ -740,15 +810,23 @@
                 </div>
             </div>
             
-            <div class="controls">
-                <button class="btn btn-secondary" onclick="previousQuestion()" id="prev-btn" style="display: none;">
-                    ← Previous
-                </button>
-                <button class="btn btn-secondary" onclick="openNotes()" id="notes-btn" style="display: none;">
-                    📝 Add Note
-                </button>
-                <button class="btn next-btn" onclick="nextQuestion()" id="next-btn" style="display: none;">
-                    Next Vibe
+            <!-- Main game controls (excluding the fixed menu button) -->
+            <div class="game-controls">
+                <!-- This row will contain Previous and Add Note -->
+                <div class="top-game-controls">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" id="prev-btn" style="display: none;">
+                        ← Previous
+                    </button>
+                    <button class="btn btn-secondary" onclick="openNotes()" id="notes-btn" style="display: none;">
+                        📝 Add Note
+                    </button>
+                    <button class="btn btn-secondary" onclick="deepDivePrompt()" id="deep-dive-btn" style="display: none;">
+                        ✨ Deep Dive
+                    </button>
+                </div>
+                <!-- This button will be full width -->
+                <button class="btn next-btn full-width-btn" onclick="nextQuestion()" id="next-btn" style="display: none;">
+                    Next Vibe →
                 </button>
             </div>
         </div>
@@ -789,6 +867,29 @@
                 <button class="btn" onclick="saveNote()" style="margin-top: 20px;">Save Note</button>
             </div>
         </div>
+
+        <!-- LLM Response Modal -->
+        <div class="modal" id="llm-response-modal">
+            <div class="llm-response-modal-content">
+                <div class="modal-header">
+                    <h2 id="llm-response-title">✨ Prompt Deep Dive ✨</h2>
+                    <button class="close-btn" onclick="closeLlmResponseModal()">×</button>
+                </div>
+                <div id="llm-response-text"></div>
+                <div class="loading-indicator" id="llm-loading-indicator">Generating insights</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fixed Menu Button (outside game-container) -->
+    <button class="menu-btn fixed-bottom-left" onclick="toggleMenu()">☰ Menu</button>
+    <!-- Menu Dropdown (Fixed, relative to the fixed menu button) -->
+    <div class="menu-dropdown" id="menu-dropdown">
+        <div class="menu-item" onclick="showStats()">📊 View Stats</div>
+        <div class="menu-item" onclick="showQuestionGrid()">📱 Prompt Grid</div>
+        <div class="menu-item" onclick="showFavorites()">❤️ View Liked Prompts</div>
+        <div class="menu-item" onclick="exportNotes()">📥 Export Notes</div>
+        <div class="menu-item" onclick="resetProgress()">🔄 Reset Progress</div>
     </div>
 
     <script>
@@ -1072,6 +1173,7 @@
             document.getElementById('next-btn').style.display = 'block';
             document.getElementById('notes-btn').style.display = 'block';
             document.getElementById('prev-btn').style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+            document.getElementById('deep-dive-btn').style.display = 'block'; // Show the new deep dive button
         }
 
         // Displays the current question and updates UI elements
@@ -1105,6 +1207,7 @@
             document.getElementById('notes-btn').style.display = 'block';
             document.getElementById('next-btn').style.display = 'block';
             document.getElementById('prev-btn').style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+            document.getElementById('deep-dive-btn').style.display = 'block'; // Show the new deep dive button
 
             updateProgress(); // Update progress bar
             saveProgress(); // Save current state
@@ -1159,6 +1262,7 @@
             document.getElementById('favorite-btn').style.display = 'none';
             document.getElementById('question-number').style.display = 'none';
             document.getElementById('note-indicator').style.display = 'none';
+            document.getElementById('deep-dive-btn').style.display = 'none'; // Hide deep dive button
             
             updateProgressIndicators(); // Update progress on level buttons
         }
@@ -1422,6 +1526,72 @@
             document.getElementById('game-screen').style.display = 'block'; // Show game screen
             showQuestion(); // Re-display the current question
         }
+
+        // --- Gemini API Integration ---
+
+        // Function to call the Gemini API for prompt expansion
+        async function deepDivePrompt() {
+            const currentQuestionText = document.getElementById('question-text').textContent;
+            const llmResponseTextDiv = document.getElementById('llm-response-text');
+            const loadingIndicator = document.getElementById('llm-loading-indicator');
+
+            // Clear previous response and show loading indicator
+            llmResponseTextDiv.innerHTML = '';
+            loadingIndicator.style.display = 'block';
+            openLlmResponseModal();
+
+            try {
+                let chatHistory = [];
+                const prompt = `Elaborate on the following relationship prompt, offering different angles, interpretations, or follow-up questions to encourage deeper conversation. Keep the tone Gen Z friendly and concise.
+                
+                Prompt: "${currentQuestionText}"`;
+                
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // Leave as-is, Canvas will provide in runtime
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    // Format the text for better readability:
+                    // 1. Split by double newlines to create paragraphs.
+                    // 2. Replace single newlines within paragraphs with <br> for line breaks.
+                    const formattedText = text.split('\n\n')
+                                              .map(paragraph => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
+                                              .join('');
+                    llmResponseTextDiv.innerHTML = formattedText;
+                } else {
+                    llmResponseTextDiv.innerHTML = '<p>Oops! Couldn\'t generate insights right now. Try again later, no cap.</p>';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                llmResponseTextDiv.innerHTML = '<p>Failed to connect with the vibe check. Check your internet or try again!</p>';
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Opens the LLM response modal
+        function openLlmResponseModal() {
+            document.getElementById('llm-response-modal').classList.add('active');
+        }
+
+        // Closes the LLM response modal
+        function closeLlmResponseModal() {
+            document.getElementById('llm-response-modal').classList.remove('active');
+            document.getElementById('llm-response-text').innerHTML = ''; // Clear content on close
+        }
+
     </script>
 </body>
 </html>
