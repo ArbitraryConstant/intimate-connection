@@ -404,9 +404,10 @@
 
         /* Menu Button and Dropdown */
         .menu-btn {
-            position: absolute;
-            top: 20px; /* Adjusted top position to top-left */
-            left: 20px; /* Adjusted left position */
+            position: fixed; /* Changed to fixed */
+            bottom: 20px; /* Positioned at the bottom */
+            left: 50%; /* Centered horizontally */
+            transform: translateX(-50%); /* Adjust for perfect centering */
             background: rgba(255, 255, 255, 0.2);
             border: none;
             padding: 10px 15px;
@@ -426,9 +427,10 @@
         }
 
         .menu-dropdown {
-            position: absolute;
-            top: 60px; /* Adjusted top to align with new button position */
-            left: 20px; /* Adjusted left to align with new button position */
+            position: fixed; /* Changed to fixed */
+            bottom: 60px; /* Positioned above the button */
+            left: 50%; /* Centered horizontally */
+            transform: translateX(-50%); /* Adjust for perfect centering */
             background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
             color: #333; /* Dark text for contrast */
             border-radius: 10px;
